@@ -90,7 +90,7 @@ def convert_by_vocab(vocab, items):
   for item in items:
     try:
       output.append(vocab[item])
-    except Keyerror:
+    except KeyError:
       if item.type == int:
         output.append('unk')
       else:
