@@ -88,7 +88,13 @@ def convert_by_vocab(vocab, items):
   """Converts a sequence of [tokens|ids] using the vocab."""
   output = []
   for item in items:
-    output.append(vocab[item])
+    try:
+      output.append(vocab[item])
+    except Keyerror:
+      if item.type == int:
+        output.append('unk')
+      else:
+        output.append(4)
   return output
 
 
@@ -170,18 +176,12 @@ class ThaiTokenizer(object):
     return split_tokens
 
   def convert_tokens_to_ids(self, tokens):
-    try:
-      return convert_by_vocab(self.vocab, tokens)
-    except KeyError:
-      return 4
+    return convert_by_vocab(self.vocab, tokens)
 
   def convert_ids_to_tokens(self, ids):
-    try:
-      return convert_by_vocab(self.inv_vocab, ids)
-    except KeyError:
-      return '<unk>'
+    return convert_by_vocab(self.inv_vocab, ids)
 
-
+  
 class BasicTokenizer(object):
   """Runs basic tokenization (punctuation splitting, lower casing, etc.)."""
 
