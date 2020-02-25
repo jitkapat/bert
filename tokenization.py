@@ -170,10 +170,16 @@ class ThaiTokenizer(object):
     return split_tokens
 
   def convert_tokens_to_ids(self, tokens):
-    return convert_by_vocab(self.vocab, tokens)
+    try:
+      return convert_by_vocab(self.vocab, tokens)
+    except KeyError:
+      return 4
 
   def convert_ids_to_tokens(self, ids):
-    return convert_by_vocab(self.inv_vocab, ids)
+    try:
+      return convert_by_vocab(self.inv_vocab, tokens)
+    except KeyError:
+      return '<unk>'
 
 
 class BasicTokenizer(object):
